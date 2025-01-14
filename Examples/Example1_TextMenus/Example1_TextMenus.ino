@@ -119,7 +119,6 @@ void InstantTemp()
 }
 void DisplaySelectedResults()
 {
-  Serial.println("DisplaySelectedResults");
   menuSystem.SetCurrentMenu(RESULTS_MENU);
   return;
 }
@@ -218,15 +217,12 @@ void SetDriver()
 }
 void SelectResults()
 {
-  Serial.print("SelectResults - selected ");
-  Serial.println(menuSystem.GetCurrentSelection());
   menuSystem.curMenu = MAIN_MENU;
   return;
 }
 //
 void YesNo()
 {
-  Serial.println("SelectResults");
   return;
 }
 void SelectUnits()
