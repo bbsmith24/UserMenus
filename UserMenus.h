@@ -8,6 +8,8 @@
 class Menu
 {
 public:
+  // show description with menu
+  bool showDescription = false;
   // function to handle menu selection
   typedef void (*ChoiceHandler) ();
 
@@ -87,22 +89,20 @@ public:
   //
   // display current menu
   //
-//  virtual void DisplayMenu(char* title = "");
-  virtual void DisplayMenu(char* title)
+  virtual void DisplayMenu()
   {
-	DisplayMenu(curMenu, title);
+	DisplayMenu(curMenu);
     return;
   }
   //
   // display selected menu
   //
-//  virtual void DisplayMenu(menuIdx = 0, char* title = "");
-  virtual void DisplayMenu(int menuIdx, char* title)
+  virtual void DisplayMenu(int menuIdx)
   {
     curMenu = menuIdx;
-	if(strlen(title) > 0)
+	if(menus[menuIdx].showDescription)
 	{
-      Serial.println(title);
+      Serial.println(menus[menuIdx].menuName);
 	}
     for(int idx = 0; idx < menus[menuIdx].menuLength; idx++)
     {
@@ -132,12 +132,12 @@ public:
       if((readChar == "D") || (readChar == "d"))
       {
         menus[curMenu].curChoice = menus[curMenu].curChoice + 1 < menus[curMenu].menuLength ? menus[curMenu].curChoice + 1 : 0;
-		DisplayMenu("");
+		DisplayMenu();
       }
       else if((readChar == "U") || (readChar == "u"))
       {
         menus[curMenu].curChoice = menus[curMenu].curChoice - 1 >= 0 ? menus[curMenu].curChoice - 1 : menus[curMenu].menuLength - 1;
-		DisplayMenu("");
+		DisplayMenu();
       }
       else// if((readChar == "S") || (readChar == "s"))
       { 
@@ -166,7 +166,7 @@ public:
   //
   //
   //
-  void AddMenu(char* menuTitle)
+  void AddMenu(char* menuTitle, bool showDesc)
   {
     if(menuCount == 0)
     {
@@ -176,6 +176,7 @@ public:
     {
       menus = (Menu*)realloc(menus, ((menuCount + 1) * sizeof(Menu)));
     }
+	menus[menuCount].showDescription = showDesc;
     strcpy(menus[menuCount].menuName, menuTitle);
     menus[menuCount].menuLength = 0;
     menus[menuCount].curChoice = 0;

@@ -16,7 +16,7 @@
 TFTMenus menuSystem;
 
 // TFT display
-//TFT_eSPI tftDisplay = TFT_eSPI();
+TFT_eSPI tftDisplay = TFT_eSPI();
 //int fontHeight;
 //int fontWidth;
 //int textPosition[2] = {5, 0};
@@ -42,13 +42,13 @@ void setup()
   Serial.println("| TFT Display User Menu example  |");
   Serial.println("==================================");  
   Serial.println("Add menus");
-  menuSystem.AddMenu("Main Menu");
-  menuSystem.AddMenu("Settings");
-  menuSystem.AddMenu("Drivers");
-  menuSystem.AddMenu("Results");
-  menuSystem.AddMenu("Yes/No");
-  menuSystem.AddMenu("12/24");
-  menuSystem.AddMenu("Units");
+  menuSystem.AddMenu("Main Menu", false);
+  menuSystem.AddMenu("Settings", false);
+  menuSystem.AddMenu("Drivers", false);
+  menuSystem.AddMenu("Results", false);
+  menuSystem.AddMenu("Yes/No", true);
+  menuSystem.AddMenu("12/24", false);
+  menuSystem.AddMenu("Units", false);
   // main menu
   Serial.println("Add choices to menu 0");
   menuSystem.menus[MAIN_MENU].AddMenuChoice(0, "Measure Temps", MeasureTemps);
@@ -106,14 +106,15 @@ void setup()
   Serial.println("==============");
   Serial.println("| menu setup |");
   Serial.println("==============");
-  menuSystem.Setup();
+  tftDisplay.init();
+  menuSystem.Setup(&tftDisplay);
   delay (1000);
 }
 
 void loop() 
 {
   Serial.println();
-  menuSystem.DisplayMenu("");
+  menuSystem.DisplayMenu();
   menuSystem.GetUserInput();
   delay(100);
 }
@@ -196,7 +197,8 @@ void DeleteData()
 {
   while(true)
   {
-    menuSystem.DisplayMenu(YESNO_MENU, "Delete all data?");
+    strcpy(menuSystem.menus[YESNO_MENU].menuName, "Delete all data?");
+    menuSystem.DisplayMenu(YESNO_MENU);
     menuSystem.GetUserInput();
     if(menuSystem.GetCurrentSelection() == 0)
     {

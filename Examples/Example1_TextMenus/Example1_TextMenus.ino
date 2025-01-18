@@ -24,13 +24,13 @@ void setup()
   Serial.println("Menu system example");
   Serial.println("===================");
   Serial.println("Add menus");
-  menuSystem.AddMenu("Main Menu");
-  menuSystem.AddMenu("Settings");
-  menuSystem.AddMenu("Drivers");
-  menuSystem.AddMenu("Results");
-  menuSystem.AddMenu("Yes/No");
-  menuSystem.AddMenu("12/24");
-  menuSystem.AddMenu("Units");
+  menuSystem.AddMenu("Main Menu", false);
+  menuSystem.AddMenu("Settings", false);
+  menuSystem.AddMenu("Drivers", false);
+  menuSystem.AddMenu("Results", false);
+  menuSystem.AddMenu("Yes/No", true);
+  menuSystem.AddMenu("12/24", false);
+  menuSystem.AddMenu("Units", false);
   // main menu
   Serial.println("Add choices to menu 0");
   menuSystem.menus[MAIN_MENU].AddMenuChoice(0, "Measure Temps", MeasureTemps);
